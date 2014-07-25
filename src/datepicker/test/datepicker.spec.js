@@ -1711,4 +1711,16 @@ describe('datepicker directive', function () {
       expect(getTitle()).toBe('2013');
     });
   });
+  
+  describe('when the showWeeks falls over a change in year', function() {
+    beforeEach(inject(function() {
+      $rootScope.date = new Date('January 01, 2001');
+      element = $compile('<datepicker ng-model="date" max-mode="month"></datepicker>')($rootScope);
+      $rootScope.$digest();
+    }));
+
+    it('resets the week number back to 1', function() {
+      expect(getWeeks()).toEqual(['52', '1', '2', '3', '4', '5']);
+    });
+  });
 });

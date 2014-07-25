@@ -257,11 +257,16 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
         scope.title = dateFilter(ctrl.activeDate, ctrl.formatDayTitle);
         scope.rows = ctrl.split(days, 7);
 
-        if ( scope.showWeeks ) {
+        if (scope.showWeeks) {
           scope.weekNumbers = [];
-          var weekNumber = getISO8601WeekNumber( scope.rows[0][0].date ),
-              numWeeks = scope.rows.length;
-          while( scope.weekNumbers.push(weekNumber++) < numWeeks ) {}
+          var numWeeks = scope.rows.length;
+          var currentDate = scope.rows[0][0].date;
+
+          for (var k = 0; k <= scope.rows.length; k++) {
+            var weekDate = new Date(currentDate);
+            weekDate.setDate(weekDate.getDate() + (7 * k));
+            scope.weekNumbers.push(getISO8601WeekNumber(weekDate));
+          }
         }
       };
 
